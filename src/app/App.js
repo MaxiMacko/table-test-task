@@ -55,8 +55,10 @@ const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const filterValue = useSelector(state => state.get('filterValue'));
-  const userData = useSelector(filteredRecordsHelper);
-  const countsByStatus = counterForStatus(userData);
+  const userData = useSelector(state => state.get('userData'));
+
+  const recordsToShow = filteredRecordsHelper(userData, filterValue);
+  const countsByStatus = counterForStatus(recordsToShow);
 
   return (
     <div className={classes.wrapper}>
@@ -90,7 +92,7 @@ const App = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {userData.map(row => (
+            {recordsToShow.map(row => (
               <TableRow key={row.name}>
                 <TableCell align="left">{row.name}</TableCell>
                 <TableCell align="left">{row.role}</TableCell>
